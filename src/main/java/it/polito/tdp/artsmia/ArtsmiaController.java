@@ -1,8 +1,10 @@
 package it.polito.tdp.artsmia;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.artsmia.model.Adiacenza;
 import it.polito.tdp.artsmia.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +33,7 @@ public class ArtsmiaController {
     private Button btnCalcolaPercorso;
 
     @FXML
-    private ComboBox<?> boxRuolo;
+    private ComboBox<String> boxRuolo;
 
     @FXML
     private TextField txtArtista;
@@ -42,7 +44,16 @@ public class ArtsmiaController {
     @FXML
     void doArtistiConnessi(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Calcola artisti connessi");
+    	txtResult.appendText("Calcola artisti connessi"+"\n");
+    	List<Adiacenza> result=this.model.getCoppie();
+    	if(result.size()==0) {
+    		this.txtResult.appendText("Non ci sono coppie collegate");
+    		return;
+    	}
+    	for(Adiacenza a: result) {
+    		this.txtResult.appendText(a.toString()+"\n");
+    	}
+    	return;
     }
 
     @FXML
@@ -55,10 +66,22 @@ public class ArtsmiaController {
     void doCreaGrafo(ActionEvent event) {
     	txtResult.clear();
     	txtResult.appendText("Crea grafo");
+    	String p=this.boxRuolo.getValue();
+    	if(p==null) {
+    		this.txtResult.setText("Nessuna professione inserita!");
+    		return;
+    	}
+    	
+    	String result=this.model.creaGrafo(p);
+    	this.txtResult.appendText(result);
+    	this.btnArtistiConnessi.setDisable(false);
+    	this.btnCalcolaPercorso.setDisable(false);
     }
 
     public void setModel(Model model) {
     	this.model = model;
+    	List<String> professioni=this.model.getP();
+    	this.boxRuolo.getItems().addAll(professioni);
     }
 
     
@@ -70,6 +93,8 @@ public class ArtsmiaController {
         assert boxRuolo != null : "fx:id=\"boxRuolo\" was not injected: check your FXML file 'Artsmia.fxml'.";
         assert txtArtista != null : "fx:id=\"txtArtista\" was not injected: check your FXML file 'Artsmia.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Artsmia.fxml'.";
+        this.btnArtistiConnessi.setDisable(true);
+        this.btnCalcolaPercorso.setDisable(true);
 
     }
 }
