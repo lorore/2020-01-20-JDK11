@@ -109,4 +109,8 @@ public class Model {
 	public boolean esisteId(Integer id) {
 		return this.graph.containsVertex(id);
 	}
+	
+	public Integer getMax() {
+		return this.max;
+	}
 }
