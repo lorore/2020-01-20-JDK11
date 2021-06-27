@@ -4,8 +4,8 @@ public class TestModel {
 
 	public static void main(String[] args) {
 		Model m=new Model();
-		m.creaGrafo("Manufacturer");
-		m.getCoppie();
+		m.creaGrafo("Engraver");
+		m.avviaRicorsione(5484);
 	}
 
 }

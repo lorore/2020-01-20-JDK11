@@ -59,13 +59,41 @@ public class ArtsmiaController {
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Calcola percorso");
+    	txtResult.appendText("Calcola percorso"+"\n");
+    	String s=this.txtArtista.getText().trim();
+    	if(s.isBlank()) {
+    		this.txtResult.setText("Nessun id inserito!");
+    		return;
+    	}
+    	Integer id;
+    	try {
+    		id=Integer.parseInt(s);
+    	}catch(NumberFormatException e) {
+    		this.txtResult.setText("Quello inserito non è un numero");
+    		return;
+    	}
+    	
+    	if(!this.model.esisteId(id)) {
+    		this.txtResult.setText("L'id inserito non esiste");
+    		return;
+    	}
+    	
+    	List<Integer> result=this.model.avviaRicorsione(id);
+    	if(result.size()==0) {
+    		this.txtResult.appendText("cammino non esiste");
+    		return;
+    	}
+    	for(Integer i: result) {
+    		this.txtResult.appendText(i+"\n");
+    	}
+    	return;
+    	
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Crea grafo");
+    	txtResult.appendText("Crea grafo"+"\n");
     	String p=this.boxRuolo.getValue();
     	if(p==null) {
     		this.txtResult.setText("Nessuna professione inserita!");
