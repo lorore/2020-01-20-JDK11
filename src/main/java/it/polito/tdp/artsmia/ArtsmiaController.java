@@ -83,7 +83,7 @@ public class ArtsmiaController {
     		this.txtResult.appendText("cammino non esiste");
     		return;
     	}
-    	this.txtResult.appendText("Lunghezza cammino: "+this.model.getMax());
+    	this.txtResult.appendText("Lunghezza cammino: "+this.model.getMax()+"\n");
     	for(Integer i: result) {
     		this.txtResult.appendText(i+"\n");
     	}
